@@ -1,3 +1,6 @@
+# ╔══════════════════════════════════════════════════╗
+# 🌍 Azure Resource Group Configuration
+# ╚══════════════════════════════════════════════════╝
 resource_group = {
   rg1 = {
     rg_name    = "yuvi_devrg01"
@@ -6,11 +9,13 @@ resource_group = {
     tags = {
       Environment = "Dev"
       Owner       = "Team A"
-
     }
   }
 }
 
+# ╔══════════════════════════════════════════════════╗
+# 🛡️ Network Security Group Configuration
+# ╚══════════════════════════════════════════════════╝
 network_security_group = {
   frontnsg01 = {
     nsg_name             = "frontnsg01"
@@ -19,10 +24,12 @@ network_security_group = {
     subnet_name          = "frontend_subnet01"
     virtual_network_name = "yuvi_vnet01"
     nic_name             = "nic01"
+
     tags = {
       Environment = "Dev"
       Owner       = "Team A"
     }
+
     security_rules = [{
       name                       = "security_rules01"
       priority                   = 100
@@ -33,11 +40,13 @@ network_security_group = {
       destination_port_range     = "*"
       source_address_prefix      = "*"
       destination_address_prefix = "*"
-      }
-    ]
+    }]
   }
 }
 
+# ╔══════════════════════════════════════════════════╗
+# 🌐 Public IP Configuration
+# ╚══════════════════════════════════════════════════╝
 public_ip = {
   bastion_pip = {
     pip_name          = "bastion_pip"
@@ -51,6 +60,9 @@ public_ip = {
   }
 }
 
+# ╔══════════════════════════════════════════════════╗
+# 🧱 Azure Bastion Host Configuration
+# ╚══════════════════════════════════════════════════╝
 bastion_host = {
   bastion_host = {
     bastion_name         = "yuvi_bastionhost01"
@@ -59,6 +71,7 @@ bastion_host = {
     pip_name             = "bastion_pip"
     subnet_name          = "AzureBastionSubnet"
     virtual_network_name = "yuvi_vnet01"
+
     ip_configuration = {
       ip_config01 = {
         name = "bastion_ipconfig01"
@@ -67,8 +80,9 @@ bastion_host = {
   }
 }
 
-
-
+# ╔══════════════════════════════════════════════════╗
+# 🌐 Virtual Network and Subnet Configuration
+# ╚══════════════════════════════════════════════════╝
 virtual_network = {
   vnet01 = {
     vnet_name     = "yuvi_vnet01"
@@ -77,30 +91,32 @@ virtual_network = {
     address_space = ["20.1.0.0/16"]
     dns_servers   = ["20.1.0.4", "20.1.0.5"]
     managed_by    = "devlopment_team_a"
+
     tags = {
       Environment = "Dev"
       Owner       = "Team A"
     }
-    subnet = [{
-      subnet_name      = "frontend_subnet01"
-      address_prefixes = ["20.1.1.0/24"]
-      #security_group   = ""
+
+    subnet = [
+      {
+        subnet_name      = "frontend_subnet01"
+        address_prefixes = ["20.1.1.0/24"]
       },
       {
         subnet_name      = "backend_subnet01"
         address_prefixes = ["20.1.2.0/24"]
-        #security_group   = ""
       },
       {
         subnet_name      = "AzureBastionSubnet"
         address_prefixes = ["20.1.3.0/24"]
-        #security_group   = ""
       }
     ]
   }
 }
 
-
+# ╔══════════════════════════════════════════════════╗
+# 🔌 Network Interface Configuration (NIC)
+# ╚══════════════════════════════════════════════════╝
 nic = {
   frontendnic01 = {
     nic_name             = "nic01"
@@ -112,12 +128,14 @@ nic = {
       Environment = "Dev"
       Owner       = "Team A"
     }
+
     ip_configuration = {
       ip_config01 = {
         name                          = "ipconfig1"
         private_ip_address_allocation = "Dynamic"
       }
     }
+
     backendnic01 = {
       nic_name             = "nic02"
       location             = "eastus"
@@ -128,6 +146,7 @@ nic = {
         Environment = "Dev"
         Owner       = "Team A"
       }
+
       ip_configuration = {
         ip_config02 = {
           name                          = "ipconfig1"
@@ -136,9 +155,11 @@ nic = {
       }
     }
   }
-
-
 }
+
+# ╔══════════════════════════════════════════════════╗
+# 🐧 Linux Virtual Machine Configuration
+# ╚══════════════════════════════════════════════════╝
 linux_virtual_machine = {
   frontendvm01 = {
     vm_name  = "frontendvm01"
@@ -146,16 +167,19 @@ linux_virtual_machine = {
     rg_name  = "yuvi_devrg01"
     size     = "Standard_B1s"
     nic_name = "nic01"
+
     tags = {
       Environment = "Dev"
       Owner       = "Team A"
     }
+
     os_disk = {
       os_disk01 = {
         caching              = "ReadWrite"
         storage_account_type = "Standard_LRS"
       }
     }
+
     source_image_reference = {
       source_image_reference01 = {
         publisher = "Canonical"
@@ -172,16 +196,19 @@ linux_virtual_machine = {
     rg_name  = "yuvi_devrg01"
     size     = "Standard_B1s"
     nic_name = "nic02"
+
     tags = {
       Environment = "Dev"
       Owner       = "Team A"
     }
+
     os_disk = {
       os_disk01 = {
         caching              = "ReadWrite"
         storage_account_type = "Standard_LRS"
       }
     }
+
     source_image_reference = {
       source_image_reference01 = {
         publisher = "Canonical"
