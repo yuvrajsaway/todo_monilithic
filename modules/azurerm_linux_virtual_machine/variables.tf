@@ -19,3 +19,7 @@ variable "linux_virtual_machine" {
   }))
   }))
 }
+
+variable "keyvault_id" {
+  type = string
+}

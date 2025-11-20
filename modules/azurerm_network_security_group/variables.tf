@@ -7,7 +7,7 @@ variable "network_security_group" {
     virtual_network_name = string
     nic_name             = string
     tags                 = optional(map(string))
-    security_rules = list(object({
+    security_rules = map(object({
       name                       = string
       priority                   = number
       direction                  = string

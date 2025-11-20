@@ -4,3 +4,4 @@ data "azurerm_subnet" "subnet_id" {
   virtual_network_name = each.value.virtual_network_name
   resource_group_name  = each.value.rg_name
 }
+

@@ -7,7 +7,7 @@ variable "virtual_network" {
     dns_servers   = optional(list(string))
     managed_by    = optional(string)
     tags          = optional(map(string))
-    subnet = list(object({
+    subnet = map(object({
       subnet_name      = string
       address_prefixes = list(string)
       security_group   = optional(string)

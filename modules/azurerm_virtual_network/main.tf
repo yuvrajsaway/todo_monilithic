@@ -20,5 +20,9 @@ resource "azurerm_virtual_network" "azure_vnet" {
 
 
 
+#  output "subid01" {
+# value = {for sub , hub in azurerm_virtual_network.azure_vnet[each.key].subnet:sub => hub.id}
+  
+# }
 
 

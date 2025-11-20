@@ -23,7 +23,7 @@ variable "network_security_group" {
     nic_name             = string
     tags                 = optional(map(string))
 
-    security_rules = list(object({
+    security_rules = map(object({
       name                       = string
       priority                   = number
       direction                  = string
@@ -49,6 +49,8 @@ variable "public_ip" {
     tags              = optional(map(string))
   }))
 }
+
+
 # ---------------------------------------------------------
 # Bastion Host Variables
 # ---------------------------------------------------------
@@ -82,7 +84,7 @@ variable "virtual_network" {
     managed_by    = optional(string)
     tags          = optional(map(string))
 
-    subnet = list(object({
+    subnet = map(object({
       subnet_name      = string
       address_prefixes = list(string)
       security_group   = optional(string)
@@ -95,12 +97,12 @@ variable "virtual_network" {
 # ---------------------------------------------------------
 variable "nic" {
   type = map(object({
-    nic_name            = string
-    location            = string
-    rg_name             = string
-    subnet_name         = string
+    nic_name             = string
+    location             = string
+    rg_name              = string
+    subnet_name          = string
     virtual_network_name = string
-    tags                = optional(map(string))
+    tags                 = optional(map(string))
 
     ip_configuration = map(object({
       name                          = string
@@ -133,4 +135,96 @@ variable "linux_virtual_machine" {
       version   = string
     }))
   }))
+}
+
+# ---------------------------------------------------------
+# MSSQL server Variables
+# ---------------------------------------------------------
+
+variable "mssqlserver" {
+  type = map(object({
+    mssqlserver_name             = string
+    rg_name                      = string
+    location                     = string
+    version                      = string
+    administrator_login          = string
+    administrator_login_password = string
+    minimum_tls_version          = string
+    azured_login_username        = string
+    object_id                    = string
+    tags                         = map(string)
+  }))
+}
+
+# ---------------------------------------------------------
+# MSSQL DATABASE Variables
+# ---------------------------------------------------------
+
+variable "mssql_database" {
+  type = map(object({
+    db_name          = string
+    mssqlserver_name = string
+    rg_name          = string
+    collation        = string
+    license_type     = string
+    max_size_gb      = number
+    sku_name         = string
+    enclave_type     = string
+    tags             = map(string)
+
+  }))
+
+}
+
+# ---------------------------------------------------------
+# Keyvault Variables
+# ---------------------------------------------------------
+
+variable "key_vault" {
+  type = map(object({
+    keyvaultname                = string
+    location                    = string
+    rg_name                     = string
+    enabled_for_disk_encryption = bool
+    soft_delete_retention_days  = number
+    purge_protection_enabled    = bool
+    sku_name                    = string
+    tags                        = map(string)
+  }))
+
+}
+
+# ---------------------------------------------------------
+# Keyvault Secret Variables
+# ---------------------------------------------------------
+
+variable "kvsecret" {
+  type = map(object({
+    kvsecretname       = string
+    kvsecretname_value = string
+    keyvaultname       = string
+    rg_name            = string
+  }))
+}
+
+# ---------------------------------------------------------
+# load balancer Variables
+# ---------------------------------------------------------
+
+variable "load_balancer" {
+  type = map(object({
+    lb_name           = string
+    location          = string
+    rg_name           = string
+    frontend_ip_conf  = string
+    pip_name          = string
+    backend_pool_name = string
+    healthprobe_name  = string
+    healthprobe_port  = number
+    lb_rulename       = string
+    protocol          = string
+    frontend_port     = number
+    backend_port      = number
+  }))
+
 }

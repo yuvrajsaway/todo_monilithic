@@ -5,8 +5,8 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   resource_group_name             = each.value.rg_name
   size                            = each.value.size
   disable_password_authentication = "false"
-  admin_username                  = "dataram"
-  admin_password                  = "P@$$w0rd@123"
+  admin_username                  = data.azurerm_key_vault_secret.vmusername.value
+  admin_password                  = data.azurerm_key_vault_secret.vmusername.value
   network_interface_ids = [data.azurerm_network_interface.data_nic[each.key].id]
 
   # admin_ssh_key {
@@ -36,12 +36,22 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   # nginx install during VM build
   custom_data = base64encode(<<-EOF
               #!/bin/bash
+              # Fix DNS resolution for Ubuntu
+              mkdir -p /etc/systemd/resolved.conf.d
+              cat <<EOT >/etc/systemd/resolved.conf.d/dns.conf
+              [Resolve]
+              DNS=8.8.8.8
+              FallbackDNS=1.1.1.1
+              EOT
+
+              systemctl restart systemd-resolved
+              # Install nginx
               apt-get update -y
               apt-get install -y nginx
               systemctl enable nginx
               systemctl start nginx
               EOF
-  )
+)
 
 }
 
